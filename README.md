@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# title-generator-client
 
-## Getting Started
+A small Next.js app that turns [title-generator](https://github.com/natalieolivo/title-generator)
+(an AI-powered title/headline generator, originally a CLI/library package)
+into a standalone web demo — linked from [natalieolivo.tech](https://natalieolivo.tech)
+rather than embedded into it.
 
-First, run the development server:
+## Why a separate project
+
+`title-generator`'s `generateTitles()` calls the Claude API using a secret
+`ANTHROPIC_API_KEY`, so it has to run server-side. This app wraps it in a
+Next.js API route (`src/app/api/generate-titles/route.ts`) and adds a minimal
+form UI, while leaving the original CLI/library package untouched.
+
+## Dependency
+
+`generateTitles` is imported from the published package
+[`@natalieolivo/title-generator`](https://www.npmjs.com/package/@natalieolivo/title-generator)
+(source: [github.com/natalieolivo/title-generator](https://github.com/natalieolivo/title-generator)),
+installed like any other npm dependency — no vendoring or local linking.
+
+## Local development
 
 ```bash
+cp .env.local.example .env.local
+# then fill in ANTHROPIC_API_KEY in .env.local
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This project pins Node via `.node-version` (see below) — if you use
+[fnm](https://github.com/Schniz/fnm) or nvm, it'll pick this up automatically.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Node version
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Next.js 16+ requires Node ≥20.9.0. This repo pins a newer Node
+(`.node-version`) independently of whatever Node version is active elsewhere
+on the machine.
 
-## Learn More
+## Rate limiting
 
-To learn more about Next.js, take a look at the following resources:
+The API route includes a lightweight in-memory per-IP rate limit (5
+requests/minute) and hard caps on input size, since this is a public,
+unauthenticated endpoint backed by a paid API. It's best-effort only (resets
+on cold start, not shared across concurrent serverless instances) —
+sufficient for a portfolio demo, not meant to withstand a determined abuser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deployed on [Vercel](https://vercel.com). `ANTHROPIC_API_KEY` must be set
+under Project Settings → Environment Variables (Production + Preview) before
+deploying — it's never committed to the repo.
