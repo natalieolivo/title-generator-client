@@ -1,6 +1,16 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import {
+  Alert,
+  Button,
+  NumberInput,
+  Paper,
+  SimpleGrid,
+  Stack,
+  Text,
+  TextInput,
+} from "@mantine/core";
 
 type GenerateResponse = { titles: string[] } | { error: string };
 
@@ -53,62 +63,69 @@ export default function TitleGeneratorForm() {
   }
 
   return (
-    <div>
+    <Stack gap="xl">
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="subject">Subject</label>
-          <input
-            id="subject"
-            type="text"
+        <Stack gap="lg">
+          <TextInput
+            label="Subject"
             value={subject}
-            onChange={(e) => setSubject(e.target.value)}
+            onChange={(e) => setSubject(e.currentTarget.value)}
             placeholder="e.g. a productivity app"
             required
           />
-        </div>
 
-        <div>
-          <label htmlFor="count">Count</label>
-          <input
-            id="count"
-            type="number"
-            min={1}
-            max={6}
-            value={count}
-            onChange={(e) => setCount(Number(e.target.value))}
-          />
-        </div>
+          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg">
+            <NumberInput
+              label="Count"
+              min={1}
+              max={6}
+              allowDecimal={false}
+              clampBehavior="strict"
+              value={count}
+              onChange={(value) => setCount(Number(value) || 1)}
+            />
+            <TextInput
+              label="Tone (optional)"
+              value={tone}
+              onChange={(e) => setTone(e.currentTarget.value)}
+              placeholder="e.g. playful, urgent"
+            />
+          </SimpleGrid>
 
-        <div>
-          <label htmlFor="tone">Tone (optional)</label>
-          <input
-            id="tone"
-            type="text"
-            value={tone}
-            onChange={(e) => setTone(e.target.value)}
-            placeholder="e.g. playful, urgent"
-          />
-        </div>
-
-        <button type="submit" disabled={loading}>
-          {loading ? "Generating..." : "Generate titles"}
-        </button>
+          <Button type="submit" fullWidth loading={loading}>
+            Generate titles
+          </Button>
+        </Stack>
       </form>
 
-      {error && <p role="alert">{error}</p>}
+      {error && (
+        <Alert color="red" radius="xl" role="alert">
+          {error}
+        </Alert>
+      )}
 
       {results.length > 0 && (
-        <ul>
+        <Stack gap="md">
           {results.map((title, index) => (
-            <li key={index}>
-              {title}{" "}
-              <button type="button" onClick={() => handleCopy(title, index)}>
-                {copiedIndex === index ? "Copied!" : "Copy"}
-              </button>
-            </li>
+            <Paper key={index} withBorder p="lg" radius="xl" shadow="sm">
+              <Stack gap="md">
+                <Text size="xl" fw={700}>
+                  {title}
+                </Text>
+                <Button
+                  type="button"
+                  size="lg"
+                  variant={copiedIndex === index ? "filled" : "light"}
+                  color={copiedIndex === index ? "dark" : undefined}
+                  onClick={() => handleCopy(title, index)}
+                >
+                  {copiedIndex === index ? "Copied!" : "Copy"}
+                </Button>
+              </Stack>
+            </Paper>
           ))}
-        </ul>
+        </Stack>
       )}
-    </div>
+    </Stack>
   );
 }

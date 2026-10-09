@@ -1,0 +1,64 @@
+.mascot {
+  --head-x: 0px;
+  --head-y: 0px;
+  --eye-x: 0px;
+  --eye-y: 0px;
+
+  flex: none;
+  width: clamp(96px, 22vw, 140px);
+  height: auto;
+  filter: drop-shadow(0 14px 18px rgba(20, 20, 70, 0.18));
+}
+
+.headTrack {
+  transform: translate(var(--head-x), var(--head-y));
+  transition: transform 0.35s ease-out;
+}
+
+.headBob {
+  animation: bob 4.5s ease-in-out infinite;
+}
+
+.eyes {
+  transform: translate(var(--eye-x), var(--eye-y));
+  transition: transform 0.25s ease-out;
+}
+
+.eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: blink 5.5s infinite;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(-1.2deg);
+  }
+}
+
+@keyframes blink {
+  0%,
+  93%,
+  100% {
+    transform: scaleY(1);
+  }
+  96% {
+    transform: scaleY(0.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .headBob,
+  .eye {
+    animation: none;
+  }
+
+  .headTrack,
+  .eyes {
+    transition: none;
+  }
+}
