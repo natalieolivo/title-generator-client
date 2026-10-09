@@ -19,6 +19,12 @@ form UI, while leaving the original CLI/library package untouched.
 (source: [github.com/natalieolivo/title-generator](https://github.com/natalieolivo/title-generator)),
 installed like any other npm dependency — no vendoring or local linking.
 
+## UI
+
+Built with [Mantine](https://mantine.dev) (light theme, large playful buttons
+and inputs, responsive layout) and customized through CSS Modules
+(`src/theme.ts`, `src/theme.module.css`, `src/app/page.module.css`).
+
 ## Local development
 
 ```bash
