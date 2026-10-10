@@ -19,7 +19,7 @@
   animation: bob 4.5s ease-in-out infinite;
 }
 
-.eyes {
+.gaze {
   transform: translate(var(--eye-x), var(--eye-y));
   transition: transform 0.25s ease-out;
 }
@@ -58,7 +58,7 @@
   }
 
   .headTrack,
-  .eyes {
+  .gaze {
     transition: none;
   }
 }

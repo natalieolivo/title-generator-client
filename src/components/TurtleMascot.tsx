@@ -3,6 +3,9 @@
 import { useEffect, useRef } from "react";
 import styles from "./TurtleMascot.module.css";
 
+// Angles (degrees) where plate seams run from the inner ring to the shell edge.
+const SCUTE_ANGLES = [-150, -110, -70, -30, 10, 170];
+
 // Normalized pointer offset from the mascot's center, clamped to [-1, 1].
 function clamp(value: number) {
   return Math.max(-1, Math.min(1, value));
@@ -52,37 +55,38 @@ export default function TurtleMascot() {
         <rect y="34" width="400" height="14" fill="#c6c6c6" />
         <rect x="165" y="24" width="70" height="24" rx="3" fill="#d2d2d2" />
 
-        {/* neck */}
-        <path
-          d="M110 240 C100 280 95 300 90 330 L310 330 C305 300 300 280 290 240 Z"
-          fill="#78ad62"
-        />
-        <ellipse cx="200" cy="302" rx="46" ry="16" fill="#a9d08e" />
-
-        {/* shell */}
-        <path
-          d="M30 430 C30 340 110 308 200 308 C290 308 370 340 370 430 Z"
-          fill="#3c7a52"
-        />
-        <path
-          d="M30 430 C30 340 110 308 200 308 C290 308 370 340 370 430"
+        {/* shell, behind the head */}
+        <ellipse cx="200" cy="240" rx="172" ry="165" fill="#3c7a52" />
+        <ellipse cx="200" cy="240" rx="126" ry="119" fill="#4a8c61" />
+        <g stroke="#2b5a3d" strokeWidth="5" strokeLinecap="round" fill="none">
+          <ellipse cx="200" cy="240" rx="126" ry="119" />
+          {SCUTE_ANGLES.map((angle) => {
+            const rad = (angle * Math.PI) / 180;
+            const x = (r: number) => 200 + r * Math.cos(rad);
+            const y = (r: number) => 240 + (r * 119) / 126 * Math.sin(rad);
+            return (
+              <line key={angle} x1={x(126)} y1={y(126)} x2={x(172)} y2={y(172)} />
+            );
+          })}
+        </g>
+        <ellipse
+          cx="200"
+          cy="240"
+          rx="172"
+          ry="165"
           fill="none"
           stroke="#a7d28a"
           strokeWidth="8"
         />
-        <polygon
-          points="200,326 238,346 238,392 200,412 162,392 162,346"
-          fill="#4a8c61"
-          stroke="#2b5a3d"
-          strokeWidth="5"
-          strokeLinejoin="round"
+
+        {/* neck and shoulders, in front of the shell */}
+        <path
+          d="M118 250 C110 300 92 335 66 410 L334 410 C308 335 290 300 282 250 Z"
+          fill="#78ad62"
         />
-        <g stroke="#2b5a3d" strokeWidth="5" strokeLinecap="round">
-          <line x1="162" y1="346" x2="110" y2="334" />
-          <line x1="238" y1="346" x2="290" y2="334" />
-          <line x1="162" y1="392" x2="120" y2="410" />
-          <line x1="238" y1="392" x2="280" y2="410" />
-        </g>
+        <ellipse cx="96" cy="388" rx="34" ry="26" fill="#6a9c55" />
+        <ellipse cx="304" cy="388" rx="34" ry="26" fill="#6a9c55" />
+        <ellipse cx="200" cy="306" rx="48" ry="17" fill="#a9d08e" />
 
         {/* head */}
         <g className={styles.headTrack}>
@@ -96,21 +100,29 @@ export default function TurtleMascot() {
               <ellipse cx="238" cy="138" rx="8" ry="6" />
             </g>
 
-            <circle cx="140" cy="236" r="16" fill="#f4a6a0" opacity="0.5" />
-            <circle cx="260" cy="236" r="16" fill="#f4a6a0" opacity="0.5" />
+            <circle cx="140" cy="236" r="15" fill="#ff9aa8" opacity="0.8" />
+            <circle cx="260" cy="236" r="15" fill="#ff9aa8" opacity="0.8" />
 
-            <g className={styles.eyes}>
-              <g className={styles.eye}>
-                <circle cx="158" cy="200" r="13" fill="#c4e0a2" />
-                <circle cx="158" cy="200" r="7.5" fill="#000" />
-                <circle cx="160.5" cy="197" r="2.6" fill="#fff" />
+            {[158, 242].map((cx) => (
+              <g key={cx} className={styles.eye}>
+                <ellipse cx={cx} cy="198" rx="21" ry="23" fill="#fff" />
+                <ellipse
+                  cx={cx}
+                  cy="198"
+                  rx="21"
+                  ry="23"
+                  fill="none"
+                  stroke="#5f9448"
+                  strokeWidth="3"
+                />
+                <g className={styles.gaze}>
+                  <circle cx={cx} cy="200" r="14" fill="#2f6b45" />
+                  <circle cx={cx} cy="200" r="8.5" fill="#0d1f14" />
+                  <circle cx={cx + 5} cy="194" r="5" fill="#fff" />
+                  <circle cx={cx - 4} cy="206" r="2.2" fill="#fff" opacity="0.85" />
+                </g>
               </g>
-              <g className={styles.eye}>
-                <circle cx="242" cy="200" r="13" fill="#c4e0a2" />
-                <circle cx="242" cy="200" r="7.5" fill="#000" />
-                <circle cx="244.5" cy="197" r="2.6" fill="#fff" />
-              </g>
-            </g>
+            ))}
 
             <ellipse cx="191" cy="229" rx="3.5" ry="4.5" fill="#1f3d2a" />
             <ellipse cx="209" cy="229" rx="3.5" ry="4.5" fill="#1f3d2a" />
