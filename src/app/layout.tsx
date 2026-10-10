@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Syne } from "next/font/google";
+import { Fredoka, Nunito } from "next/font/google";
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "./globals.css";
 import { theme } from "@/theme";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const nunito = Nunito({
+  variable: "--font-body",
   subsets: ["latin"],
 });
 
-const syne = Syne({
+const fredoka = Fredoka({
   variable: "--font-display",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${syne.variable}`}
+      className={`${nunito.variable} ${fredoka.variable}`}
       {...mantineHtmlProps}
     >
       <head>

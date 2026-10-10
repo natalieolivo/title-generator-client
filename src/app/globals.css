@@ -1,8 +1,8 @@
 body {
   min-height: 100dvh;
   background:
-    radial-gradient(70% 45% at 50% -5%, #e7e8ff 0%, transparent 70%),
-    #fafafb;
+    radial-gradient(70% 45% at 50% -5%, #ffe2bd 0%, transparent 70%),
+    #fff6e9;
   background-attachment: fixed;
-  color: #0b0b0f;
+  color: #3a2a20;
 }

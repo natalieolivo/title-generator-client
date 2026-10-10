@@ -116,7 +116,7 @@ export default function TitleGeneratorForm() {
                   type="button"
                   size="lg"
                   variant={copiedIndex === index ? "filled" : "light"}
-                  color={copiedIndex === index ? "dark" : undefined}
+                  color={copiedIndex === index ? "green" : undefined}
                   onClick={() => handleCopy(title, index)}
                 >
                   {copiedIndex === index ? "Copied!" : "Copy"}

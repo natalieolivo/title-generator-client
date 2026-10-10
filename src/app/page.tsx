@@ -9,12 +9,12 @@ export default function Home() {
       <Stack gap="xl">
         <Stack gap="md">
           <Title order={1} className={styles.title}>
-            Tantalizing Titles
+            Tittling Titles
           </Title>
           <Group gap="lg" wrap="nowrap" align="center">
             <TurtleMascot />
             <Text fw={500} className={styles.intro}>
-              AI-generated headline variants for a subject of your choosing.
+              Generate tittling titles for blog posts, social media content, or newly built apps. Use for brainstorming headlines or copy them for quick use.
             </Text>
           </Group>
         </Stack>

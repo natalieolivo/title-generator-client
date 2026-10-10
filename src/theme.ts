@@ -1,21 +1,21 @@
 import { createTheme, type MantineColorsTuple } from "@mantine/core";
 import classes from "./theme.module.css";
 
-const volt: MantineColorsTuple = [
-  "#eef0ff", "#dfe2ff", "#bfc4ff", "#9ea5ff", "#7f87ff",
-  "#5f67ff", "#4a50e6", "#393ecc", "#2b2fa8", "#1f2280",
+const sun: MantineColorsTuple = [
+  "#fff4e6", "#ffe4c7", "#ffcc99", "#ffb36b", "#ff9a45",
+  "#ff8a2b", "#f27312", "#cc5f0b", "#a24c0a", "#7a3a08",
 ];
 
-const display = "var(--font-display), var(--font-geist-sans), system-ui, sans-serif";
+const display = "var(--font-display), var(--font-body), system-ui, sans-serif";
 
 export const theme = createTheme({
-  colors: { volt },
-  primaryColor: "volt",
-  primaryShade: 6,
+  colors: { sun },
+  primaryColor: "sun",
+  primaryShade: 5,
   autoContrast: true,
-  black: "#0b0b0f",
-  fontFamily: "var(--font-geist-sans), system-ui, sans-serif",
-  headings: { fontFamily: display, fontWeight: "700" },
+  black: "#3a2a20",
+  fontFamily: "var(--font-body), system-ui, sans-serif",
+  headings: { fontFamily: display, fontWeight: "600" },
   defaultRadius: "xl",
   components: {
     Button: {
