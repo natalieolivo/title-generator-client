@@ -9,7 +9,7 @@ export default function Home() {
       <Stack gap="xl">
         <Stack gap="md">
           <Title order={1} className={styles.title}>
-            Title Generator
+            Tantalizing Titles
           </Title>
           <Group gap="lg" wrap="nowrap" align="center">
             <TurtleMascot />
