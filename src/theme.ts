@@ -19,15 +19,15 @@ export const theme = createTheme({
   defaultRadius: "xl",
   components: {
     Button: {
-      defaultProps: { size: "xl", radius: "xl" },
+      defaultProps: { size: "xl", radius: "sm" },
       classNames: { root: classes.button },
     },
     TextInput: {
-      defaultProps: { size: "xl", radius: "xl" },
+      defaultProps: { size: "xl", radius: "sm" },
       classNames: { input: classes.input, label: classes.label },
     },
     NumberInput: {
-      defaultProps: { size: "xl", radius: "xl" },
+      defaultProps: { size: "xl", radius: "sm" },
       classNames: { input: classes.input, label: classes.label },
     },
     Paper: { classNames: { root: classes.card } },

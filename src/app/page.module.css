@@ -12,3 +12,22 @@
   font-size: clamp(1.1rem, 3.5vw, 1.4rem);
   line-height: 1.5;
 }
+
+.hero {
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-lg);
+}
+
+@media (max-width: 36em) {
+  .title {
+    font-size: clamp(2.75rem, 12vw, 3.5rem);
+    text-align: center;
+  }
+
+  .hero {
+    flex-direction: column;
+    gap: var(--mantine-spacing-md);
+    text-align: center;
+  }
+}
