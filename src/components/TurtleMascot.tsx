@@ -50,10 +50,10 @@ export default function TurtleMascot() {
 
       <g clipPath="url(#turtle-frame)">
         {/* backdrop */}
-        <rect width="400" height="400" fill="#dddddd" />
-        <rect width="400" height="34" fill="#4d4d4d" />
-        <rect y="34" width="400" height="14" fill="#c6c6c6" />
-        <rect x="165" y="24" width="70" height="24" rx="3" fill="#d2d2d2" />
+        <rect width="400" height="400" fill="#f4e4cf" />
+        <rect width="400" height="34" fill="#8a6548" />
+        <rect y="34" width="400" height="14" fill="#dfc7aa" />
+        <rect x="165" y="24" width="70" height="24" rx="3" fill="#ecd9c0" />
 
         {/* shell, behind the head */}
         <ellipse cx="200" cy="240" rx="172" ry="165" fill="#3c7a52" />

@@ -11,6 +11,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
+import classes from "../theme.module.css";
 
 type GenerateResponse = { titles: string[] } | { error: string };
 
@@ -92,7 +93,13 @@ export default function TitleGeneratorForm() {
             />
           </SimpleGrid>
 
-          <Button type="submit" fullWidth loading={loading}>
+          <Button
+            type="submit"
+            fullWidth
+            loading={loading}
+            color="green"
+            className={classes.green}
+          >
             Generate titles
           </Button>
         </Stack>
@@ -116,7 +123,7 @@ export default function TitleGeneratorForm() {
                   type="button"
                   size="lg"
                   variant={copiedIndex === index ? "filled" : "light"}
-                  color={copiedIndex === index ? "dark" : undefined}
+                  color={copiedIndex === index ? "green" : undefined}
                   onClick={() => handleCopy(title, index)}
                 >
                   {copiedIndex === index ? "Copied!" : "Copy"}

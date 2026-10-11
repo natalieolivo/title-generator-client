@@ -10,6 +10,13 @@
   filter: drop-shadow(0 14px 18px rgba(20, 20, 70, 0.18));
 }
 
+@media (max-width: 36em) {
+  .mascot {
+    width: clamp(180px, 55vw, 260px);
+    margin-inline: auto;
+  }
+}
+
 .headTrack {
   transform: translate(var(--head-x), var(--head-y));
   transition: transform 0.35s ease-out;
