@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+  # Limited to main so PR branches are not built twice (push + pull_request).
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      # --if-present: no test script exists yet; this activates once one is added.
+      - name: Test
+        run: npm test --if-present
+
+      - name: Build
+        run: npm run build
