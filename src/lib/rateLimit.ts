@@ -1,7 +1,5 @@
-// Best-effort, in-memory, per-warm-instance rate limiter. Not distributed —
-// resets on cold start, and each concurrent serverless instance has its own
-// counters. Acceptable for a portfolio demo; it blunts casual API-cost spam,
-// it isn't meant to withstand a determined abuser.
+// In-memory and per instance: counters reset on cold start and aren't shared
+// across serverless instances. Blunts casual spam only.
 const WINDOW_MS = 60_000;
 const MAX_REQUESTS_PER_WINDOW = 5;
 const hits = new Map<string, number[]>();

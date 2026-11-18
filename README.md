@@ -2,7 +2,7 @@
 
 A small Next.js app that turns [title-generator](https://github.com/natalieolivo/title-generator)
 (an AI-powered title/headline generator, originally a CLI/library package)
-into a standalone web demo — linked from [natalieolivo.tech](https://natalieolivo.tech)
+into a standalone web app — linked from [natalieolivo.tech](https://natalieolivo.tech)
 rather than embedded into it.
 
 ## Why a separate project
