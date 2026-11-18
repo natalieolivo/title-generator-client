@@ -49,7 +49,6 @@ export default function TurtleMascot() {
       </defs>
 
       <g clipPath="url(#turtle-frame)">
-        {/* backdrop */}
         <rect width="400" height="400" fill="#f4e4cf" />
         <rect width="400" height="34" fill="#8a6548" />
         <rect y="34" width="400" height="14" fill="#dfc7aa" />
@@ -88,7 +87,6 @@ export default function TurtleMascot() {
         <ellipse cx="304" cy="388" rx="34" ry="26" fill="#6a9c55" />
         <ellipse cx="200" cy="306" rx="48" ry="17" fill="#a9d08e" />
 
-        {/* head */}
         <g className={styles.headTrack}>
           <g className={styles.headBob}>
             <ellipse cx="192" cy="205" rx="104" ry="94" fill="#5f9448" />
