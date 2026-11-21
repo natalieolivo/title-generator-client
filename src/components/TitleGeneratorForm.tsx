@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import {
   Alert,
+  Badge,
   Button,
   NumberInput,
   Paper,
@@ -13,7 +14,17 @@ import {
 } from "@mantine/core";
 import classes from "../theme.module.css";
 
-type GenerateResponse = { titles: string[] } | { error: string };
+type TitleScore = { total: number; rank: number; rationale: string };
+type TitleResult = { title: string; score?: TitleScore };
+type GenerateResponse = { titles: TitleResult[] } | { error: string };
+
+// Filled badges rely on the theme's autoContrast for dark text (>= 6:1 on
+// green/yellow/orange shade 5); the light variant's text failed AA.
+function scoreColor(total: number) {
+  if (total >= 75) return "green";
+  if (total >= 50) return "yellow";
+  return "orange";
+}
 
 export default function TitleGeneratorForm() {
   const [subject, setSubject] = useState("");
@@ -21,7 +32,7 @@ export default function TitleGeneratorForm() {
   const [tone, setTone] = useState("");
 
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState<string[]>([]);
+  const [results, setResults] = useState<TitleResult[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
@@ -113,9 +124,25 @@ export default function TitleGeneratorForm() {
 
       {results.length > 0 && (
         <Stack gap="md">
-          {results.map((title, index) => (
+          {results.map(({ title, score }, index) => (
             <Paper key={index} withBorder p="lg" radius="xl" shadow="sm">
               <Stack gap="md">
+                {score && (
+                  <Stack gap={6}>
+                    <Badge
+                      size="lg"
+                      variant="filled"
+                      color={scoreColor(score.total)}
+                      aria-label={`Rank ${score.rank} of ${results.length}, SEO score ${score.total} out of 100`}
+                      style={{ alignSelf: "flex-start" }}
+                    >
+                      #{score.rank} · SEO {score.total}/100
+                    </Badge>
+                    <Text size="sm" c="gray.7">
+                      {score.rationale}
+                    </Text>
+                  </Stack>
+                )}
                 <Text size="xl" fw={700}>
                   {title}
                 </Text>
