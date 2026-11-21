@@ -45,11 +45,32 @@ on the machine.
 
 ## Rate limiting
 
-The API route includes a lightweight in-memory per-IP rate limit (5
-requests/minute) and hard caps on input size, since this is a public,
-unauthenticated endpoint backed by a paid API. It's best-effort only (resets
-on cold start, not shared across concurrent serverless instances) —
-sufficient for a portfolio demo, not meant to withstand a determined abuser.
+The API route includes a lightweight in-memory per-IP rate limit and hard
+caps on input size, since this is a public, unauthenticated endpoint backed by
+a paid API. The limit is counted in paid Claude calls: each request makes two
+(title generation, then SEO scoring), so it consumes 2 of 6 units per minute,
+i.e. 3 requests/minute per IP. It's best-effort only (resets on cold start,
+not shared across concurrent serverless instances) — sufficient for a
+portfolio demo, not meant to withstand a determined abuser.
+
+## API: `POST /api/generate-titles`
+
+Request: `{ subject: string, count?: number, tone?: string }`.
+
+Response (200):
+
+```json
+{
+  "titles": [
+    { "title": "...", "score": { "total": 82, "rank": 1, "rationale": "..." } }
+  ]
+}
+```
+
+`titles` is an array of objects, not strings. `score` (`total` 0-100, `rank`
+1 = best) is optional: if scoring fails or takes longer than 20 seconds, the
+titles are returned without it. Scores are model estimates, not real search
+data. The route has `maxDuration = 60`.
 
 ## Deployment
 
