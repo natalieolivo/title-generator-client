@@ -144,6 +144,21 @@ describe("POST /api/generate-titles success", () => {
     expect(mockScore).toHaveBeenCalledWith({ subject: "apps", titles: ["A", "B"] });
   });
 
+  it("matches scores to titles by index, not by rank order", async () => {
+    mockGenerate.mockResolvedValue(["A", "B"]);
+    mockScore.mockResolvedValue([
+      { title: "A", total: 60, rank: 2, rationale: "why A", scores: {} as unknown as SeoCriterionScores },
+      { title: "B", total: 90, rank: 1, rationale: "why B", scores: {} as unknown as SeoCriterionScores },
+    ]);
+
+    const body = await (await POST(makeRequest({ subject: "x" }))).json();
+
+    expect(body.titles).toEqual([
+      { title: "A", score: { total: 60, rank: 2, rationale: "why A" } },
+      { title: "B", score: { total: 90, rank: 1, rationale: "why B" } },
+    ]);
+  });
+
   it("omits count and tone from the generator call when not provided", async () => {
     mockGenerate.mockResolvedValue(["A"]);
     mockScore.mockResolvedValue(scored(["A"]));
@@ -204,8 +219,20 @@ describe("POST /api/generate-titles scoring degradation", () => {
 
     const res = await POST(makeRequest({ subject: "x" }, { signal: controller.signal }));
 
+    expect(res.status).toBe(200);
     expect(mockScore).not.toHaveBeenCalled();
     expect(await res.json()).toEqual({ titles: [{ title: "A" }] });
+  });
+
+  it("returns unscored titles when scoring rejects with a non-Error", async () => {
+    mockGenerate.mockResolvedValue(["A"]);
+    mockScore.mockRejectedValue("nope");
+
+    const res = await POST(makeRequest({ subject: "x" }));
+
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({ titles: [{ title: "A" }] });
+    expect(errorSpy).toHaveBeenCalledWith("scoreTitles failed:", "Unknown error");
   });
 });
 

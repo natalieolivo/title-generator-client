@@ -33,12 +33,13 @@ describe("checkRateLimit", () => {
   });
 
   it("does not consume units when a request is rejected", () => {
-    checkRateLimit("a", 2);
-    checkRateLimit("a", 2);
-    checkRateLimit("a", 2);
-    expect(checkRateLimit("a", 2).allowed).toBe(false);
-    jest.advanceTimersByTime(60_000);
-    expect(checkRateLimit("a", 2).allowed).toBe(true);
+    expect(checkRateLimit("a", 6).allowed).toBe(true);
+    jest.advanceTimersByTime(30_000);
+    // If this rejected call recorded its units, they would still be inside
+    // the window after the original 6 expire.
+    expect(checkRateLimit("a", 6).allowed).toBe(false);
+    jest.advanceTimersByTime(30_000);
+    expect(checkRateLimit("a", 6).allowed).toBe(true);
   });
 
   it("frees capacity once the 60 second window passes", () => {
