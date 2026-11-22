@@ -20,7 +20,7 @@ type GenerateResponse = { titles: TitleResult[] } | { error: string };
 
 // Filled badges rely on the theme's autoContrast for dark text (>= 6:1 on
 // green/yellow/orange shade 5); the light variant's text failed AA.
-function scoreColor(total: number) {
+export function scoreColor(total: number) {
   if (total >= 75) return "green";
   if (total >= 50) return "yellow";
   return "orange";
